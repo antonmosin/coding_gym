@@ -1,7 +1,7 @@
 """Compute median on the stream of data
 
 Answer to the third programming assignment of  https://www.coursera.org/learn/algorithms-graphs-data-structures:
->>> ppython -m src.median -i data/hw_median.txt
+>>> python -m src.median -i data/hw_median.txt
 """
 
 import heapq
@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 
 class MedianFinder:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.heap_low = []
         self.heap_high = []
         heapq.heapify(self.heap_low)
@@ -40,14 +40,14 @@ class MedianFinder:
         if abs(len(self.heap_low) - len(self.heap_high)) > 1:
             self._rebalance()
 
-    def _push(self, num):
+    def _push(self, num) -> None:
         """Pick the heap to push the number to"""
         if num > -self.heap_low[0]:
             heapq.heappush(self.heap_high, num)
         else:
             heapq.heappush(self.heap_low, -num)
 
-    def _rebalance(self):
+    def _rebalance(self) -> None:
         """Make sure that heap_low and heap_high have similar number of items"""
         if len(self.heap_low) > len(self.heap_high):
             num = -heapq.heappop(self.heap_low)
@@ -62,7 +62,7 @@ class MedianFinder:
         elif len(self.heap_low) < len(self.heap_high):
             return self.heap_high[0]
         else:
-            # median of k even numbers is the (k/2)th lowest number, not the average
+            # task requirement: median of k even numbers is the (k/2)th lowest number, not the average
             #return (-self.heap_low[0] + self.heap_high[0]) / 2
             return -self.heap_low[0]
 
