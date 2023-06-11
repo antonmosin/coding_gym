@@ -1,4 +1,3 @@
-
 """Implemeent Dijikstra algorithm to find the shortest path in an undirected weighted graph
 
 Answer to the second programming assignment of  https://www.coursera.org/learn/algorithms-graphs-data-structures:
