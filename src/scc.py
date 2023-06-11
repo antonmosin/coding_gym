@@ -42,16 +42,14 @@ class Scc:
 
     def _dfs_loop(self) -> None:
         """Initiate depth-first-search on the entire graph"""
-        leader_node = None
         for node in self.graph:
             if not node.visited:
-                leader_node = node
                 if self.iterative:
-                    self._dfs_iterative(node, leader_node)
+                    self._dfs_iterative(node)
                 else:
-                    self._dfs(node, leader_node)
+                    self._dfs(node)
 
-    def _dfs_iterative(self, node: Node, leader_node: Node) -> None:
+    def _dfs_iterative(self, node: Node) -> None:
         """Iterative implementation of depth-first-search that avoids deep recursions"""
         stack = []
         stack.append(node)
@@ -60,7 +58,7 @@ class Scc:
         while stack:
             x = stack.pop()
             x.visited = True
-            self.leaders[x.name] = leader_node.name
+            self.leaders[x.name] = node.name
             finish_times_rev.append(x)
 
             for child in x.children:
@@ -69,15 +67,15 @@ class Scc:
 
         self.finish_order.extend(finish_times_rev[::-1])
 
-    def _dfs(self, node: Node, leader_node: Node) -> None:
+    def _dfs(self, node: Node) -> None:
         """Recursive DFS that will fail on very large graph"""
         node.visited = True
         # running dfs on the original graph to obtain leader nodes
-        self.leaders[node.name] = leader_node.name
+        self.leaders[node.name] = node.name
         for child in node.children:
             if not child.visited:
                 #print(child)
-                self._dfs(child, leader_node)
+                self._dfs(child, node)
 
         # running dfs on the reversed graph to obtain finishing times
         self.finish_order.append(node)
